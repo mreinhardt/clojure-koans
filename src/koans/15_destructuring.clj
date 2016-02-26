@@ -30,11 +30,6 @@
      (let [[first-name last-name :as full-name] ["Stephen" "Hawking"]]
        {:original-parts full-name :named-parts {:first first-name :last last-name}}))
 
-  (def test-address
-  {:street-address "123 Test Lane"
-   :city "Testerville"
-   :state "TX"})
-
   "Break up maps by key"
   (= "123 Test Lane, Testerville, TX"
      (let [{street-address :street-address, city :city, state :state} test-address]
@@ -47,4 +42,5 @@
 
   "All together now!"
   (= "Test Testerson, 123 Test Lane, Testerville, TX"
-     ( ["Test" "Testerson"] test-address)))
+          ((fn [[first-name last-name] {:keys [street-address city state]}]
+                     (str first-name " " last-name ", " street-address ", " city ", " state)) ["Test" "Testerson"] test-address)))
